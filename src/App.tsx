@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./App.module.css";
-import { Header, Footer } from "./components";
-import { Row, Col } from "antd";
+import { Header, Footer, Carousel, SideMenu } from "./components";
+import { Row, Col, Typography } from "antd";
 
 function App() {
   return (
@@ -11,12 +11,25 @@ function App() {
       <div className={styles["page-content"]}>
         <Row style={{ marginTop: 20 }}>
           <Col span={6}>
-            <div style={{ background: "red" }}>多重菜单</div>
+            <div>
+              <SideMenu />
+            </div>
           </Col>
           <Col span={18}>
-            <div style={{ background: "blue" }}>走马灯</div>
+            <div>
+              <Carousel />
+            </div>
           </Col>
         </Row>
+        <ProductCollection
+          title={
+            <Typography.Title level={3} type="warning">
+              爆款推荐
+            </Typography.Title>
+          }
+          slideImage={slideImage}
+          products={productList1}
+        />
       </div>
       <Footer />
     </div>

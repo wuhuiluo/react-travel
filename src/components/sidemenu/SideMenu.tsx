@@ -7,7 +7,7 @@ import { GifOutlined } from "@ant-design/icons";
 export const SideMenu = () => {
   return (
     <Menu mode="vertical" className={styles["side-menu"]}>
-      {sideMenuList.map((m, index) => {
+      {sideMenuList.map((m, index) => (
         <Menu.SubMenu
           key={`side-menu-${index}`}
           title={
@@ -17,19 +17,28 @@ export const SideMenu = () => {
             </span>
           }
         >
-          {m.subMenu.map((sm, index) => {
-            <Menu.Item
-              key={`side-menu-${index}`}
+          {m.subMenu.map((sm, smindex) => (
+            <Menu.SubMenu
+              key={`side-menu-${index}-${smindex}`}
               title={
                 <span>
                   <GifOutlined />
                   {sm.title}
                 </span>
               }
-            ></Menu.Item>;
-          })}
-        </Menu.SubMenu>;
-      })}
+            >
+              {sm.subMenu.map((sms, smsindex) => (
+                <Menu.Item key={`sub-sub-menu-${index}-${smindex}-${smsindex}`}>
+                  <span>
+                    <GifOutlined />
+                    {sms}
+                  </span>
+                </Menu.Item>
+              ))}
+            </Menu.SubMenu>
+          ))}
+        </Menu.SubMenu>
+      ))}
     </Menu>
   );
 };
