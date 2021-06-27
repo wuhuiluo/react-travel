@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.svg";
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
 import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import {
@@ -15,6 +17,9 @@ export const Header: React.FC = () => {
   const location = useLocation();
   const params = useParams();
   const match = useRouteMatch();
+  const language = useSelector((state) => state.language);
+  const lanuageList = useSelector((state) => state.languageList);
+  const dispatch = useDispatch();
   return (
     <div className={styles["app-header"]}>
       <div className={styles["top-header"]}>
