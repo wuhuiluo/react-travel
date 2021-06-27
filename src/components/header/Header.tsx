@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
       <Layout.Header className={styles["main-header"]}>
         <img src={logo} alt="logo" className={styles["App-logo"]} />
         <Typography.Title className={styles.title} level={3}>
-          React 旅游网
+          React 携程网
         </Typography.Title>
         <Input.Search
           className={styles["search-input"]}
