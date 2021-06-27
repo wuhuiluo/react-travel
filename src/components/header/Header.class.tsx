@@ -4,8 +4,21 @@ import logo from "../../assets/images/logo.svg";
 import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import store from "../../redux/store";
+import { LanguageState } from "../../redux/languageReducer";
 
-class HeaderComponent extends React.Component<RouteComponentProps> {
+interface State extends LanguageState {}
+
+class HeaderComponent extends React.Component<RouteComponentProps, State> {
+  constructor(props) {
+    super(props);
+    const storeState = store.getState();
+    this.state = {
+      language: storeState.language,
+      languageList: storeState.languageList,
+    };
+  }
+
   render() {
     const { history } = this.props;
     return (
@@ -17,13 +30,14 @@ class HeaderComponent extends React.Component<RouteComponentProps> {
               style={{ marginLeft: 15 }}
               overlay={
                 <Menu>
-                  <Menu.Item>中文</Menu.Item>
-                  <Menu.Item>English</Menu.Item>
+                  {this.state.languageList.map((l) => {
+                    return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
+                  })}
                 </Menu>
               }
               icon={<GlobalOutlined />}
             >
-              语言
+              {this.state.language === "zh" ? "中文" : "English"}
             </Dropdown.Button>
 
             <Button.Group className={styles["button-group"]}>
