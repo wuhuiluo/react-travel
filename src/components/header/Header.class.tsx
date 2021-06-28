@@ -5,7 +5,7 @@ import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import store from "../../redux/store";
-import { LanguageState } from "../../redux/languageReducer";
+import { LanguageState } from "../../redux/language/languageReducer";
 
 interface State extends LanguageState {}
 
@@ -17,8 +17,31 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
       language: storeState.language,
       languageList: storeState.languageList,
     };
+    store.subscribe(this.handleStoreChange);
   }
 
+  handleStoreChange = () => {
+    const storeState = store.getState();
+    this.setState({
+      language: storeState.language,
+    });
+  };
+
+  menuClickHandler = (e) => {
+    if (e.key === "new") {
+      const action = {
+        type: "add_language",
+        payload: {},
+      };
+      store.dispatch(action);
+    } else {
+      const action = {
+        type: "change_language",
+        payload: e.key,
+      };
+      store.dispatch(action);
+    }
+  };
   render() {
     const { history } = this.props;
     return (
@@ -29,10 +52,11 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
             <Dropdown.Button
               style={{ marginLeft: 15 }}
               overlay={
-                <Menu>
+                <Menu onClick={this.menuClickHandler}>
                   {this.state.languageList.map((l) => {
                     return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
                   })}
+                  <Menu.Item key={"new"}>新语言</Menu.Item>
                 </Menu>
               }
               icon={<GlobalOutlined />}

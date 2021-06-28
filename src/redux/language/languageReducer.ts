@@ -11,8 +11,14 @@ const defaultState: LanguageState = {
     ]
 }
 
-
-
 export default (state = defaultState, action) => {
+    console.log(state);
+    console.log(action);
+    if (action.type === "change_language") {
+        // console.log(action.type === 'change_language');
+        const newState = { ...state, language: action.payload }
+        return newState
+    }
+    if(action.type === '')
     return state
 }
