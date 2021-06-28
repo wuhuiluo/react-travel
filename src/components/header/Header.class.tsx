@@ -6,10 +6,14 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import store from "../../redux/store";
 import { LanguageState } from "../../redux/language/languageReducer";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 interface State extends LanguageState {}
 
-class HeaderComponent extends React.Component<RouteComponentProps, State> {
+class HeaderComponent extends React.Component<
+  RouteComponentProps & WithTranslation,
+  State
+> {
   constructor(props) {
     super(props);
     const storeState = store.getState();
@@ -24,6 +28,7 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
     const storeState = store.getState();
     this.setState({
       language: storeState.language,
+      languageList: storeState.languageList,
     });
   };
 
@@ -31,7 +36,7 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
     if (e.key === "new") {
       const action = {
         type: "add_language",
-        payload: {},
+        payload: { name: "新语言", code: "new_lang" },
       };
       store.dispatch(action);
     } else {
@@ -43,12 +48,12 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
     }
   };
   render() {
-    const { history } = this.props;
+    const { history, t } = this.props;
     return (
       <div className={styles["app-header"]}>
         <div className={styles["top-header"]}>
           <div className={styles.inner}>
-            <Typography.Text>让旅游更幸福</Typography.Text>
+            <Typography.Text>{t("header.slogan")}</Typography.Text>
             <Dropdown.Button
               style={{ marginLeft: 15 }}
               overlay={
@@ -56,7 +61,9 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
                   {this.state.languageList.map((l) => {
                     return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
                   })}
-                  <Menu.Item key={"new"}>新语言</Menu.Item>
+                  <Menu.Item key={"new"}>
+                    {t("header.add_new_language")}
+                  </Menu.Item>
                 </Menu>
               }
               icon={<GlobalOutlined />}
@@ -65,8 +72,12 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
             </Dropdown.Button>
 
             <Button.Group className={styles["button-group"]}>
-              <Button onClick={() => history.push("signIn")}>登陆</Button>
-              <Button onClick={() => history.push("register")}>注册</Button>
+              <Button onClick={() => history.push("signIn")}>
+                {t("header.signin")}
+              </Button>
+              <Button onClick={() => history.push("register")}>
+                {t("header.register")}
+              </Button>
             </Button.Group>
           </div>
         </div>
@@ -75,7 +86,7 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
           <span onClick={() => history.push("/")}>
             <img src={logo} alt="logo" className={styles["App-logo"]} />
             <Typography.Title className={styles.title} level={3}>
-              React 携程网
+              {t("header.title")}
             </Typography.Title>
           </span>
           <Input.Search
@@ -84,26 +95,26 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
           ></Input.Search>
         </Layout.Header>
         <Menu mode={"horizontal"} className={styles["main-menu"]}>
-          <Menu.Item key={1}>旅游首页</Menu.Item>
-          <Menu.Item key={2}>周末游</Menu.Item>
-          <Menu.Item key={3}>跟团游</Menu.Item>
-          <Menu.Item key={4}>自由行</Menu.Item>
-          <Menu.Item key={5}>私家团</Menu.Item>
-          <Menu.Item key={6}>游轮</Menu.Item>
-          <Menu.Item key={7}>酒店+景点</Menu.Item>
-          <Menu.Item key={8}>主题游</Menu.Item>
-          <Menu.Item key={9}>定制游</Menu.Item>
-          <Menu.Item key={10}>游学</Menu.Item>
-          <Menu.Item key={11}>签证</Menu.Item>
-          <Menu.Item key={12}>企业游</Menu.Item>
-          <Menu.Item key={13}>高端游</Menu.Item>
-          <Menu.Item key={14}>爱玩户外</Menu.Item>
-          <Menu.Item key={15}>保险</Menu.Item>
-          <Menu.Item key={16}>当地玩乐</Menu.Item>
+          <Menu.Item key={1}>{t("header.home_page")}</Menu.Item>
+          <Menu.Item key={2}>{t("header.weekend")}</Menu.Item>
+          <Menu.Item key={3}>{t("header.group")}</Menu.Item>
+          <Menu.Item key={4}>{t("header.backpack")}</Menu.Item>
+          <Menu.Item key={5}>{t("header.private")}</Menu.Item>
+          <Menu.Item key={6}>{t("header.cruise")}</Menu.Item>
+          <Menu.Item key={7}>{t("header.hotel")}</Menu.Item>
+          <Menu.Item key={8}>{t("header.theme")}</Menu.Item>
+          <Menu.Item key={9}>{t("header.custom")}</Menu.Item>
+          <Menu.Item key={10}>{t("header.study")}</Menu.Item>
+          <Menu.Item key={11}>{t("header.visa")}</Menu.Item>
+          <Menu.Item key={12}>{t("header.enterprise")}</Menu.Item>
+          <Menu.Item key={13}>{t("header.high_end")}</Menu.Item>
+          <Menu.Item key={14}>{t("header.outdoor")}</Menu.Item>
+          <Menu.Item key={15}>{t("header.insurance")}</Menu.Item>
+          <Menu.Item key={16}>{t("header.local")}</Menu.Item>
         </Menu>
       </div>
     );
   }
 }
 
-export const Header = withRouter(HeaderComponent);
+export const Header = withTranslation()(withRouter(HeaderComponent));
