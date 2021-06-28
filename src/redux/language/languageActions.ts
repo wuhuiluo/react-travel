@@ -1,26 +1,28 @@
-export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE'
-export const ADD_LANGUAGE = 'ADD_LANGUAGE'
+export const CHANGE_LANGUAGE = "change_language"
+export const ADD_LANGUAGE = 'add_language'
 
 interface ChangeLanguageAction {
-    type: typeof CHANGE_LANGUAGE;
+    type: typeof CHANGE_LANGUAGE,
     payload: 'zh' | 'en'
 }
 
 interface AddLanguageAction {
-    type: typeof CHANGE_LANGUAGE;
+    type: typeof ADD_LANGUAGE,
     payload: { name: string, code: string }
 }
 
-export type LanguageActionType = ChangeLanguageAction | AddLanguageAction
+export type LanguageActionTypes = ChangeLanguageAction | AddLanguageAction
 
-export const changeLanguageActionCreator = (languageCode: 'zh' | 'en'): ChangeLanguageAction => {
+// 工厂模式
+
+export const changeLanguageCreator = (languageCode: 'zh' | 'en'): ChangeLanguageAction => {
     return {
         type: CHANGE_LANGUAGE,
         payload: languageCode
     }
 }
 
-export const addLanguageActionCreator = (name: string, code: string) => {
+export const addLanguageCreator = (name: string, code: string): AddLanguageAction => {
     return {
         type: ADD_LANGUAGE,
         payload: { name, code }
