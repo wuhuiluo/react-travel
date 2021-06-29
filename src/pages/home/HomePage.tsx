@@ -9,13 +9,22 @@ import {
 } from "../../components";
 import { Row, Col, Typography } from "antd";
 import styles from "./HomePage.module.css";
-import { productList1, productList2, productList3 } from "./mock";
 import sideImage from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
 import { withTranslation, WithTranslation } from "react-i18next";
 
-class HomePageComponent extends React.Component<WithTranslation> {
+interface State {
+  productList: any[];
+}
+
+class HomePageComponent extends React.Component<WithTranslation, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productList: [],
+    };
+  }
   render() {
     const { t } = this.props;
     return (
