@@ -13,8 +13,8 @@ import {
 } from "../../redux/language/languageActions";
 export const Header: React.FC = () => {
   const history = useHistory();
-  const language = useSelector((state) => state.language);
-  const languageList = useSelector((state) => state.languageList);
+  const language = useSelector((state) => state.language.language);
+  const languageList = useSelector((state) => state.language.languageList);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const menuClickHandler = (e) => {

@@ -5,6 +5,9 @@ import App from "./App";
 import "antd/dist/antd.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import axios from "axios";
+
+axios.defaults.headers["x-icode"] = "qKhDxI15yz";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
