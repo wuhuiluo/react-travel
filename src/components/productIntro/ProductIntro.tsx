@@ -13,7 +13,7 @@ const columns: ColumnsType<RowType> = [
   },
   {
     title: "description",
-    dataIndex: "descriptione",
+    dataIndex: "description",
     key: "description",
     align: "center",
   },
@@ -36,7 +36,7 @@ interface PropsType {
   pictures: string[];
 }
 
-export const ProductIntro = ({
+export const ProductIntro: React.FC<PropsType> = ({
   title,
   shortDescription,
   price,
@@ -110,11 +110,17 @@ export const ProductIntro = ({
         </Typography.Text>
       </div>
       <Carousel autoplay slidesToShow={3}>
-        {pictures.map((r) => (
-          <Image src={r.p} height={150}></Image>
+        {pictures.map((p) => (
+          <Image src={p} height={150}></Image>
         ))}
       </Carousel>
-      <Table columns={columns} tableDataSource={tableDataSource} />
+      <Table<RowType>
+        pagination={false}
+        size="small"
+        bordered={false}
+        columns={columns}
+        dataSource={tableDataSource}
+      />
     </div>
   );
 };

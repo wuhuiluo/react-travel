@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./DetailPage.module.css";
-import { Footer, Header } from "../../components";
+import { Footer, Header, ProductIntro } from "../../components";
 import { Spin, Col, Row } from "antd";
 import { RouteComponentProps, useParams } from "react-router-dom";
 import axios from "axios";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
 
 const { RangePicker } = DatePicker;
 interface MatchParams {
@@ -58,7 +58,18 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = () => {
         {/* 产品简介 与 日期选择 */}
         <div className={styles["product-intro-container"]}>
           <Row>
-            <Col span={13}></Col>
+            <Col span={13}>
+              <ProductIntro
+                title={product.title}
+                shortDescription={product.description}
+                price={product.originalPrice}
+                coupons={product.coupons}
+                points={product.points}
+                discount={product.price}
+                rating={product.rating}
+                pictures={product.touristRoutePictures.map((p) => p.url)}
+              />
+            </Col>
             <Col span={11}>
               <RangePicker open style={{ marginTop: 20 }} />
             </Col>
