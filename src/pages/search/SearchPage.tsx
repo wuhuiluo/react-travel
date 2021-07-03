@@ -6,7 +6,7 @@ import { Spin } from "antd";
 import { searchProduct } from "../../redux/productSearch/slice";
 import { useSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
-
+import { MainLayout } from "../../layouts/mainLayout";
 interface MatchParams {
   keywords: string;
 }
@@ -18,6 +18,7 @@ export const SearchPage: React.FC = () => {
   const loading = useSelector((state) => state.productSearch.loading);
   const error = useSelector((s) => s.productSearch.error);
   const productList = useSelector((s) => s.productSearch.data);
+  console.log(productList);
   const pagination = useSelector((s) => s.productSearch.pagination);
   useEffect(() => {
     dispatch(searchProduct({ nextPage: 1, pageSize: 10, keywords }));
@@ -26,7 +27,7 @@ export const SearchPage: React.FC = () => {
   const onPageChange = (nextPage, pageSize) => {
     dispatch(searchProduct({ nextPage, pageSize, keywords }));
   };
-  
+
   if (loading) {
     return (
       <Spin
@@ -46,23 +47,19 @@ export const SearchPage: React.FC = () => {
   }
 
   return (
-    <>
-      <Header />
-      <div className={styles["page-content"]}>
-        {/* 分类过滤器 */}
-        <div className={styles["product-list-container"]}>
-          <FilterArea />
-        </div>
-        {/* 产品列表 */}
-        <div className={styles["product-list-container"]}>
-          <ProductList
-            onPageChange={onPageChange}
-            data={productList}
-            paging={pagination}
-          />
-        </div>
+    <MainLayout>
+      {/* 分类过滤器 */}
+      <div className={styles["product-list-container"]}>
+        <FilterArea />
       </div>
-      <Footer />
-    </>
+      {/* 产品列表 */}
+      <div className={styles["product-list-container"]}>
+        <ProductList
+          data={productList}
+          paging={pagination}
+          onPageChange={onPageChange}
+        />
+      </div>
+    </MainLayout>
   );
 };

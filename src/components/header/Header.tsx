@@ -63,10 +63,10 @@ export const Header: React.FC = () => {
           </Dropdown.Button>
 
           <Button.Group className={styles["button-group"]}>
-            <Button onClick={() => history.push("signIn")}>
+            <Button onClick={() => history.push("/signIn")}>
               {t("header.signin")}
             </Button>
-            <Button onClick={() => history.push("register")}>
+            <Button onClick={() => history.push("/register")}>
               {t("header.register")}
             </Button>
           </Button.Group>
@@ -83,8 +83,8 @@ export const Header: React.FC = () => {
         <Input.Search
           className={styles["search-input"]}
           placeholder={"请输入旅游目的地、主题、或关键字"}
-          onSearch={() => {
-            
+          onSearch={(keywords) => {
+            history.push(`/search/${keywords}`);
           }}
         ></Input.Search>
       </Layout.Header>
