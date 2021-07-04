@@ -32,7 +32,7 @@ export const addShoppingCartItem = createAsyncThunk(
         touristRouteId: string
     }, thunkAPI) => {
         const { data } = await axios.post(
-            `http://123.56.149.216:8080/api/shoppingCart/items)`,
+            `http://123.56.149.216:8080/api/shoppingCart/items`,
             {
                 touristRouteId: paramaters.touristRouteId
             },
@@ -43,6 +43,21 @@ export const addShoppingCartItem = createAsyncThunk(
             }
         )
         return data.shoppingCartItems
+    })
+
+export const checkout = createAsyncThunk(
+    "shoppingCart/checkout",
+    async (jwt: string, thunkAPI) => {
+        const { data } = await axios.post(
+            `http://123.56.149.216:8080/api/shoppingCart/checkout`,
+            null,
+            {
+                headers: {
+                    Authorization: `bearer ${jwt}`
+                }
+            }
+        )
+        return data
     })
 
 export const clearShoppingCartItem = createAsyncThunk(
@@ -69,6 +84,18 @@ export const shoppingCartSlice = createSlice({
 
     },
     extraReducers: {
+        [checkout.pending.type]: (state) => {
+            state.loading = true
+        },
+        [checkout.fulfilled.type]: (state, action) => {
+            state.loading = false
+            state.items = []
+            state.error = null
+        },
+        [checkout.rejected.type]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
         [getShoppingCart.pending.type]: (state) => {
             state.loading = true
         },

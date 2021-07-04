@@ -25,6 +25,8 @@ export const Header: React.FC = () => {
   const { t } = useTranslation();
   const jwt = useSelector((s) => s.user.token);
   const [username, setUsername] = useState("");
+  const shoppingCartItems = useSelector((s) => s.shoppingCart.items);
+  const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading);
 
   useEffect(() => {
     if (jwt) {
@@ -89,8 +91,11 @@ export const Header: React.FC = () => {
                 {t("header.welcome")}
                 <Typography.Text>{username}</Typography.Text>
               </span>
-              <Button onClick={() => history.push("/shoppingCart")}>
-                {t("header.shoppingCart")}
+              <Button
+                loading={shoppingCartLoading}
+                onClick={() => history.push("/shoppingCart")}
+              >
+                {t("header.shoppingCart")}({shoppingCartItems.length})
               </Button>
               <Button onClick={onLogOut}>{t("header.signOut")}</Button>
             </Button.Group>

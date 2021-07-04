@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styles from "./DetailPage.module.css";
-import {
-  Footer,
-  Header,
-  ProductIntro,
-  ProductComments,
-} from "../../components";
+import { ProductIntro, ProductComments } from "../../components";
 import { Spin, Col, Row, Divider, Typography, Anchor, Menu } from "antd";
 import { RouteComponentProps, useParams } from "react-router-dom";
 import axios from "axios";
-import { DatePicker } from "antd";
+import { DatePicker, Button } from "antd";
 import { commentMockData } from "./mockup";
 import { productDetailSlice } from "../../redux/productDetail/slice";
 import { useSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "../../redux/productDetail/slice";
 import { MainLayout } from "../../layouts/mainLayout";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { addShoppingCartItem } from "../../redux/shoppingCart/slice";
 const { RangePicker } = DatePicker;
 interface MatchParams {
   touristRouteId: string;
@@ -29,6 +26,9 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = () => {
   const loading = useSelector((state) => state.productDetail.loading);
   const error = useSelector((state) => state.productDetail.error);
   const product = useSelector((state) => state.productDetail.data);
+
+  const jwt = useSelector((s) => s.user.token) as string;
+  const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -72,6 +72,20 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = () => {
             />
           </Col>
           <Col span={11}>
+            <Button
+              danger
+              type="primary"
+              loading={shoppingCartLoading}
+              onClick={() => {
+                dispatch(
+                  addShoppingCartItem({ jwt, touristRouteId: product.id })
+                );
+              }}
+              style={{ marginTop: 50, marginBottom: 30, display: "block" }}
+            >
+              <ShoppingCartOutlined />
+              加入购物车
+            </Button>
             <RangePicker open style={{ marginTop: 20 }} />
           </Col>
         </Row>
