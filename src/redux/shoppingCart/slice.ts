@@ -25,14 +25,33 @@ export const getShoppingCart = createAsyncThunk(
         );
         return data.shoppingCartItems
     })
+export const addShoppingCartItem = createAsyncThunk(
+    "shoppingCart/addShoppingCartItem",
+    async (paramaters: {
+        jwt: string,
+        touristRouteId: string
+    }, thunkAPI) => {
+        const { data } = await axios.post(
+            `http://123.56.149.216:8080/api/shoppingCart/items)`,
+            {
+                touristRouteId: paramaters.touristRouteId
+            },
+            {
+                headers: {
+                    Authorization: `bearer ${paramaters.jwt}`
+                }
+            }
+        )
+        return data.shoppingCartItems
+    })
 
 export const clearShoppingCartItem = createAsyncThunk(
-    "shoppingCart/addShoppingCartItem",
+    "shoppingCart/clearShoppingCartItem",
     async (paramaters: {
         jwt: string,
         itemIds: number[]
     }, thunkAPI) => {
-        const { data } = await axios.post(
+        const { data } = await axios.delete(
             `http://123.56.149.216:8080/api/shoppingCart/items/(${paramaters.itemIds.join(',')})`,
             {
                 headers: {
@@ -41,6 +60,7 @@ export const clearShoppingCartItem = createAsyncThunk(
             }
         )
     })
+
 
 export const shoppingCartSlice = createSlice({
     name: 'shoppingCart',
@@ -60,6 +80,31 @@ export const shoppingCartSlice = createSlice({
         [getShoppingCart.rejected.type]: (state, action) => {
             state.loading = false
             state.error = action.payload
+        },
+        [addShoppingCartItem.pending.type]: (state) => {
+            state.loading = true
+        },
+        [addShoppingCartItem.fulfilled.type]: (state, action) => {
+            state.loading = false
+            state.items = action.payload
+            state.error = null
+        },
+        [addShoppingCartItem.rejected.type]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+        [clearShoppingCartItem.pending.type]: (state) => {
+            state.loading = true
+        },
+        [clearShoppingCartItem.fulfilled.type]: (state, action) => {
+            state.loading = false
+            state.items = []
+            state.error = null
+        },
+        [clearShoppingCartItem.rejected.type]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
         }
     }
 })
+
