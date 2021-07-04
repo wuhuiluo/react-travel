@@ -7,7 +7,7 @@ interface ShoppingCartState {
     items: any[]
 }
 const initialState: ShoppingCartState = {
-    loading: true,
+    loading: false,
     error: null,
     items: []
 }
