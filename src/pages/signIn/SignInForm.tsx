@@ -29,6 +29,7 @@ export const SignInForm = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
+    alert(error);
     console.log("Failed:", errorInfo);
   };
 

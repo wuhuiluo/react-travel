@@ -31,7 +31,11 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-
+        logOut: (state) => {
+            state.loading = false
+            state.token = null
+            state.error = null
+        }
     },
     extraReducers: {
         [signIn.pending.type]: (state) => {
